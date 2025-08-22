@@ -42,17 +42,35 @@ Error: duplicate name 'Operation' in Namespace .com.example.shared.v1
 
 ## The Root Cause
 
-This reproduces a real-world scenario where:
+This reproduces a real-world scenario where protobuf definitions are **released as separate npm libraries**:
 
-1. **Two separate packages** (v1 and v2) each have their own copy of shared models
-2. **Both copies define the same enum** (`Operation`) in the **same namespace** (`com.example.shared.v1`)
-3. **When NestJS loads both proto files**, protobuf tries to register the same enum twice in the same namespace
-4. **Result**: `duplicate name 'Operation' in Namespace .com.example.shared.v1`
+### The npm Library Distribution Model
 
-This commonly happens when:
-- Supporting multiple API versions with shared dependencies
-- Different packages/libraries include the same protobuf definitions
-- Gradual migration between proto schema versions
+In many organizations, protobuf definitions are packaged and distributed as individual npm libraries:
+- `@company/proto-v1` - Contains all v1 protobuf definitions including shared models
+- `@company/proto-v2` - Contains all v2 protobuf definitions including shared models
+
+Each version becomes a separate npm package because:
+- **Versioning independence**: Different services can consume different API versions
+- **Dependency isolation**: Services don't need to pull all versions
+- **Publishing workflow**: Each API version has its own release cycle
+
+### The Duplication Problem
+
+1. **Both npm packages include shared models**: Each library (`proto-v1`, `proto-v2`) must include its own copy of `shared_models.proto` to be self-contained
+2. **Same namespace, same definitions**: Both versions define `Operation` enum in `com.example.shared.v1` namespace
+3. **NestJS loads both libraries**: When a service needs to support both v1 and v2 APIs, it imports both npm packages
+4. **Protobuf namespace collision**: Both libraries try to register the same enum in the same namespace
+5. **Result**: `duplicate name 'Operation' in Namespace .com.example.shared.v1`
+
+### The Consequences
+
+To avoid this conflict, teams are forced to make suboptimal choices:
+
+- **Bump shared package versions unnecessarily**: In v2, we increment `shared_models.proto` namespace to `com.example.shared.v2` just to avoid conflicts, even when the models haven't changed
+- **Break semantic versioning**: Shared models that are logically identical get different namespaces
+- **Complicate client code**: Consumers must handle different namespaces for the same logical models
+- **Reduce reusability**: Shared models become less shareable across versions
 
 ## Expected Behavior
 
@@ -63,8 +81,10 @@ NestJS should be able to load multiple proto files that share common imports wit
 
 ## Real-World Context
 
-This issue commonly occurs when:
-- Supporting multiple API versions that share common models (like policy-simulation-manager v16 & v17)
-- Different npm packages include copies of the same protobuf definitions
-- Migrating between protobuf schema versions gradually
-- Microservices that evolved separately but share common domain models
+This issue commonly occurs in enterprise environments where:
+- **Multiple API versions**: Services like policy-simulation-manager v16 & v17 need to coexist
+- **Distributed npm packages**: Each API version is published as a separate `@company/proto-vX` library
+- **Gradual migration**: Teams can't immediately migrate all consumers to new versions
+- **Microservice evolution**: Different services evolved separately but share common domain models
+
+The current workaround of bumping shared model namespaces (e.g., `v1` → `v2`) just to avoid conflicts undermines the benefits of semantic versioning and shared model reusability.
