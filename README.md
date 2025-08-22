@@ -56,8 +56,8 @@ This commonly happens when:
 
 ## Attempted Solutions
 
-1. **Using `includeDirs` in loader config** - Doesn't resolve the fundamental namespace conflict
-2. **Sharing dependencies from one version** - Works for identical shared files but fails when versions have different namespaces
+1. **Using `includeDirs` in loader config** - Doesn't resolve the fundamental namespace conflict.
+2. **Sharing dependencies from one version** - Works for identical shared files but fails when versions have different namespaces.
 
 ## Expected Behavior
 
@@ -80,8 +80,3 @@ This issue commonly occurs when:
 - Different npm packages include copies of the same protobuf definitions
 - Migrating between protobuf schema versions gradually
 - Microservices that evolved separately but share common domain models
-
-## Additional Resources
-
-- `HOW_NESTJS_ROUTING_WORKS.md` - Explains how NestJS routes gRPC requests to controllers
-- `alternative-configs.md` - Shows different approaches to solve this issue
