@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "v2/shared_models.proto";
+
+package com.example.service.v2;
+
+service ServiceV2 {
+  rpc ProcessAdvancedRequest(RequestV2) returns (ResponseV2);
+}
+
+message RequestV2 {
+  string request_id = 1;
+  com.example.shared.v1.Operation operation = 2;  // Same namespace reference!
+  repeated string additional_data = 3;
+}
+
+message ResponseV2 {
+  string response_id = 1;
+  com.example.shared.v1.SharedModel shared_data = 2;  // Same namespace reference!
+  bool success = 3;
+}

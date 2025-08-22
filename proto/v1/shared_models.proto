@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package com.example.shared.v1;
+
+// This enum will cause the duplicate name conflict
+// when the same enum is defined in v2/shared_models.proto
+enum Operation {
+  OPERATION_UNSPECIFIED = 0;
+  CREATE = 1;
+  UPDATE = 2;
+  DELETE = 3;
+  READ = 4;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  ACTIVE = 1;
+  INACTIVE = 2;
+}
+
+message SharedModel {
+  string id = 1;
+  Operation operation = 2;
+  Status status = 3;
+}

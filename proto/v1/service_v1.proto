@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "v1/shared_models.proto";
+
+package com.example.service.v1;
+
+service ServiceV1 {
+  rpc ProcessRequest(RequestV1) returns (ResponseV1);
+}
+
+message RequestV1 {
+  string request_id = 1;
+  com.example.shared.v1.Operation operation = 2;
+}
+
+message ResponseV1 {
+  string response_id = 1;
+  com.example.shared.v1.SharedModel shared_data = 2;
+}

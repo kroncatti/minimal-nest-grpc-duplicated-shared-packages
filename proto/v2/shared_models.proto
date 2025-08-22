@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package com.example.shared.v1;  // Same namespace as v1! This causes the conflict
+
+// This is a DUPLICATE of the enum in v1/shared_models.proto
+// Both define "Operation" in the same namespace "com.example.shared.v1"
+enum Operation {
+  OPERATION_UNSPECIFIED = 0;
+  CREATE = 1;
+  UPDATE = 2;
+  DELETE = 3;
+  READ = 4;
+  // v2 might have additional operations
+  ARCHIVE = 5;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  ACTIVE = 1;
+  INACTIVE = 2;
+  // v2 might have additional statuses
+  DEPRECATED = 3;
+}
+
+message SharedModel {
+  string id = 1;
+  Operation operation = 2;
+  Status status = 3;
+  // v2 might have additional fields
+  string version = 4;
+}
