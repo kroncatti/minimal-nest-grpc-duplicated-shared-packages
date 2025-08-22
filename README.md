@@ -72,12 +72,4 @@ To avoid this conflict, teams are forced to make suboptimal choices:
 - **Complicate client code**: Consumers must handle different namespaces for the same logical models
 - **Reduce reusability**: Shared models become less shareable across versions
 
-## Real-World Context
-
-This issue commonly occurs in enterprise environments where:
-- **Multiple API versions**: Services like policy-simulation-manager v16 & v17 need to coexist
-- **Distributed npm packages**: Each API version is published as a separate `@company/proto-vX` library
-- **Gradual migration**: Teams can't immediately migrate all consumers to new versions
-- **Microservice evolution**: Different services evolved separately but share common domain models
-
 The current workaround of bumping shared model namespaces (e.g., `v1` → `v2`) just to avoid conflicts undermines the benefits of semantic versioning and shared model reusability.
