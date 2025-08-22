@@ -72,13 +72,6 @@ To avoid this conflict, teams are forced to make suboptimal choices:
 - **Complicate client code**: Consumers must handle different namespaces for the same logical models
 - **Reduce reusability**: Shared models become less shareable across versions
 
-## Expected Behavior
-
-NestJS should be able to load multiple proto files that share common imports without namespace conflicts, either by:
-- Deduplicating shared imports automatically
-- Providing configuration options to handle shared dependencies
-- Supporting protobuf's import resolution mechanisms properly
-
 ## Real-World Context
 
 This issue commonly occurs in enterprise environments where:
