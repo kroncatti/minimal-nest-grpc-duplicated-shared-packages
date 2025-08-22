@@ -16,9 +16,6 @@ export const grpcConfig: GrpcOptions = {
       'proto/v1/service_v1.proto',
       'proto/v2/service_v2.proto',
     ],
-    loader: {
-      includeDirs: ['proto/']  // Allow proto files to find their imports
-    },
     gracefulShutdown: true,
   },
 };

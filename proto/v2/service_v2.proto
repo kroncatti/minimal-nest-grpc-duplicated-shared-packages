@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "v2/shared_models.proto";
+import "shared_models.proto";
 
 package com.example.service.v2;
 

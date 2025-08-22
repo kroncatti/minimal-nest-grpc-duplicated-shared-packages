@@ -54,24 +54,12 @@ This commonly happens when:
 - Different packages/libraries include the same protobuf definitions
 - Gradual migration between proto schema versions
 
-## Attempted Solutions
-
-1. **Using `includeDirs` in loader config** - Doesn't resolve the fundamental namespace conflict.
-2. **Sharing dependencies from one version** - Works for identical shared files but fails when versions have different namespaces.
-
 ## Expected Behavior
 
 NestJS should be able to load multiple proto files that share common imports without namespace conflicts, either by:
 - Deduplicating shared imports automatically
 - Providing configuration options to handle shared dependencies
 - Supporting protobuf's import resolution mechanisms properly
-
-## Environment
-
-- NestJS: ^10.2.7
-- @nestjs/microservices: ^10.2.7  
-- @grpc/grpc-js: ^1.9.14
-- @grpc/proto-loader: ^0.7.13
 
 ## Real-World Context
 
