@@ -2,6 +2,11 @@
 
 This is a minimal reproduction of a protobuf namespace conflict issue when using NestJS with gRPC.
 
+> [!IMPORTANT]
+> Updated on 2025-09-09: Using NestJS, there is no workaround over this. The ideal solution involves changing the way the npm packages are released.
+>
+> We should not release depending packages in the same package. They should be imported and released separately.
+
 ## The Problem
 
 When loading multiple proto files that import the same shared proto file containing enums, protobuf throws an error:
